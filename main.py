@@ -1,6 +1,7 @@
+from Board import Board
 from browser import window
 j = window.jQuery
-from Application import Application
+
 
 # Create a new application
-j('body').html(str(Application()))
+j('body').html(str(Board(8, 8)))
