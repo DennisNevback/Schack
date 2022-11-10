@@ -1,7 +1,7 @@
 from queue import Empty
 from random import random
 from browser import window
-#from Board import Board
+# from Board import Board
 j = window.jQuery
 
 
@@ -79,6 +79,7 @@ class Piece:
         self.bind_events()
         self.counter_click_row = row_remap_css[self.position[1]]
         self.counter_click_col = col_remap_css[self.position[0]]
+        self.test = f''
 
     def bind_events(self):
         # Ask jQuery to listen to clicks on the body
@@ -90,7 +91,11 @@ class Piece:
     # note all event handlers must accept the event object
     # (even if the don't use it)
     def click(self, event):
+        self.test += self.position
+        print(self.test)
+        self.counter_click_row = self.counter_click_row + 1
         j(f'#{self.id}').css('grid-row-start', f'{self.counter_click_row}')
+        # j('body').on('mouseup', f'#{self.id}', (print('dadada'))
 
     def __str__(self):
         return f"""

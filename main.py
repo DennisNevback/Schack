@@ -29,30 +29,30 @@ game_state = {
 
 '''def get_opponent_and_decide_game_runner(user, message):
 # who is the server (= the creator of the channel)
-if 'created the channel' in message:
-    name = message.split("'")[1]
-    game_state['is_server'] = name == game_state['me']
-# who is the opponent (= the one that joined that is not me)
-if 'joined channel' in message:
-    name = message.split(' ')[1]
-    if name != game_state['me']:
-        game_state['opponent'] = name
+  if 'created the channel' in message:
+      name = message.split("'")[1]
+      game_state['is_server'] = name == game_state['me']
+  # who is the opponent (= the one that joined that is not me)
+  if 'joined channel' in message:
+      name = message.split(' ')[1]
+      if name != game_state['me']:
+          game_state['opponent'] = name
 
 
 def on_network_message(timestamp, user, message):
-if user == 'system':
-    get_opponent_and_decide_game_runner(user, message)
-# key_downs (only of interest to the server)
-global keys_down_me, keys_down_opponent
-if game_state['is_server']:
-    if user == game_state['me'] and type(message) is list:
-        keys_down_me = set(message)
-    if user == game_state['opponent'] and type(message) is list:
-        keys_down_opponent = set(message)
-# shared state (only of interest to the none-server)
-if type(message) is dict and not game_state['is_server']:
-    game_state['shared'] = message
-    render_board()'''
+  if user == 'system':
+      get_opponent_and_decide_game_runner(user, message)
+  # key_downs (only of interest to the server)
+  global keys_down_me, keys_down_opponent
+  if game_state['is_server']:
+      if user == game_state['me'] and type(message) is list:
+          keys_down_me = set(message)
+      if user == game_state['opponent'] and type(message) is list:
+          keys_down_opponent = set(message)
+  # shared state (only of interest to the none-server)
+  if type(message) is dict and not game_state['is_server']:
+      game_state['shared'] = message
+      render_board()'''
 
 
 col_remap = {
