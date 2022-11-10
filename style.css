@@ -56,15 +56,14 @@ body {
   z-index: 2;
 }
 
-.piece {
-  grid-column-start: 1;
-  grid-row-start: 8;
-  z-index: 4;
-  font-size: 40px;
+.Piece {
+  font-size: 30px;
+  align-items: baseline;
 }
 
 .square {
   background-color: beige;
+  position: relative;
   z-index: 2;
 }
 

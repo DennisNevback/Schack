@@ -1,6 +1,7 @@
 from queue import Empty
 from random import random
 from browser import window
+#from Board import Board
 j = window.jQuery
 
 
@@ -24,6 +25,28 @@ row_remap = {
     '6': 2,
     '7': 1,
     '8': 0
+    # coordinate_remap('B'), 3)
+}
+col_remap_css = {
+    'A': 1,
+    'B': 2,
+    'C': 3,
+    'D': 4,
+    'E': 5,
+    'F': 6,
+    'G': 7,
+    'H': 8
+    # coordinate_remap('B'), 3)
+}
+row_remap_css = {
+    '1': 8,
+    '2': 7,
+    '3': 6,
+    '4': 5,
+    '5': 4,
+    '6': 3,
+    '7': 2,
+    '8': 1
     # coordinate_remap('B'), 3)
 }
 
@@ -54,6 +77,8 @@ class Piece:
         self.icon = None
         self.id = 'id' + str(random()).split('.')[1]
         self.bind_events()
+        self.counter_click_row = row_remap_css[self.position[1]]
+        self.counter_click_col = col_remap_css[self.position[0]]
 
     def bind_events(self):
         # Ask jQuery to listen to clicks on the body
@@ -65,14 +90,11 @@ class Piece:
     # note all event handlers must accept the event object
     # (even if the don't use it)
     def click(self, event):
-        # Dim all lights in my traffic light
-        j(f'#{self.my_traffic_light.id} .light').css('opacity', 0.3)
-        # Undim me
-        j(f'#{self.id}').css('opacity', 1)
+        j(f'#{self.id}').css('grid-row-start', f'{self.counter_click_row}')
 
     def __str__(self):
         return f"""
-            <div class="piece {self.type}" style="grid-column:{pos_to_css_col[self.position]} grid-row= " id="{self.id}">
+            <div class="Piece {self.type}" style="grid-column-start:{col_remap_css[self.position[0]]}; grid-row-start:{row_remap_css[self.position[1]]};" id="{self.id}">
                 {self.icon}
             </div>
         """
@@ -155,6 +177,7 @@ class Bishop(Piece):
     def __init__(self, position, color):
         super().__init__(position, color)
         self.icon = ('♗', '♝')[color == 'white']
+        self.type = 'bishop'
 
     def add_valid_moves(self, board: list[list[int]]) -> None:
         print('add moves bishop')
@@ -217,6 +240,7 @@ class Rook(Piece):
     def __init__(self, position, color):
         super().__init__(position, color)
         self.icon = ('♖', '♜')[color == 'white']
+        self.type = 'rook'
 
     def add_valid_moves(self, board: list[list[int]]) -> None:
         super().add_valid_moves(board)
@@ -272,6 +296,7 @@ class Queen(Piece):
     def __init__(self, position, color):
         super().__init__(position, color)
         self.icon = ('♕', '♛')[color == 'white']
+        self.type = 'queen'
 
     def add_valid_moves(self, board: list[list[int]]) -> None:
         super().add_valid_moves(board)
@@ -373,6 +398,7 @@ class King(Piece):
     def __init__(self, position, color):
         super().__init__(position, color)
         self.icon = ('♔', '♚')[color == 'white']
+        self.type = 'king'
 
     def add_valid_moves(self, board: list[list[int]]) -> None:
         super().add_valid_moves(board)
@@ -422,6 +448,7 @@ class Knight(Piece):
     def __init__(self, position, color):
         super().__init__(position, color)
         self.icon = ('♘', '♞')[color == 'white']
+        self.type = 'knight'
 
     def add_valid_moves(self, board: list[list[int]]) -> None:
         super().add_valid_moves(board)
