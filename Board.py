@@ -67,7 +67,7 @@ class Board:
                                 f'<div class="square bg-y" id="{col}-{row}"></div>'
                         else:
                             self.html_board = self.html_board + \
-                                f'<div class="square bg-x" id="{self.col}-{self.row}"></div>'
+                                f'<div class="square bg-x" id="{col}-{row}"></div>'
 
     # use __str__ to create
     # a html representation of a TrafficLight instance

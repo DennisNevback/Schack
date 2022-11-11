@@ -12,7 +12,7 @@ j = window.jQuery
 # Create a new application
 j('body').html(str(Board(8, 8)))
 # j('Piece').on('click', f'#{pawn.id}', self.click)
-
+j('square').click(print('diska'))
 
 game_state = {
     'me': None,

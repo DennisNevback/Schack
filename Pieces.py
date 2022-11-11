@@ -93,6 +93,8 @@ class Piece:
     def click(self, event):
         self.test += self.position
         print(self.test)
+        print(event.target.id)
+        print(event.target.grid)
         self.counter_click_row = self.counter_click_row + 1
         j(f'#{self.id}').css('grid-row-start', f'{self.counter_click_row}')
         # j('body').on('mouseup', f'#{self.id}', (print('dadada'))
