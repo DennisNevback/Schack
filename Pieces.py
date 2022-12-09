@@ -91,7 +91,7 @@ class Piece:
     # note all event handlers must accept the event object
     # (even if the don't use it)
     def click(self, event):
-        self.test += self.position
+        self.test = int.self.position[1] + 1
         print(self.test)
         print(event.target.id)
         print(event.target.grid)
