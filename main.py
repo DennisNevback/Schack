@@ -169,10 +169,12 @@ def temp_board_map():
     return temp_list
 
 
-def player_move_input():
+def player_move_input(player_move):
+    print(player_move)
     global playing
-    global player_move
-    player_move = input('Enter your move: ').upper()
+    player_move = player_move.upper()
+    #global player_move
+    #player_move = input('Enter your move: ').upper()
     if board[col_remap[player_move[0]]][row_remap[player_move[1]]] != 0 and turn == board[col_remap[player_move[0]]][row_remap[player_move[1]]].color:
         if re.match('[oO]-[Oo]$', player_move):
             rochad()
@@ -194,6 +196,9 @@ def player_move_input():
     else:
         print('Those are not your pieces')
         player_turn()
+
+
+window.player_move_input = player_move_input
 
 
 def render_board():
@@ -301,4 +306,5 @@ def game_loop():
         render_board()
         win()
 
-    game_loop()
+
+game_loop()

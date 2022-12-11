@@ -40,10 +40,10 @@ b_queen = Queen('D8', 'black')
 b_king = King('E8', 'black')
 
 
-
 class Board:
 
     def __init__(self, x, y) -> list:
+        window.board = self
         self.col = x
         self.row = y
         self.id = 'id' + str(random()).split('.')[1]
@@ -93,6 +93,7 @@ class Board:
             </div>
         '''
 
+
 class Square:
     def __init__(self, position, color) -> None:
         self.position = position
@@ -105,7 +106,7 @@ class Square:
         <div class="Square-{self.color}" style="grid-column-start:{col_remap_css[self.position[0]]}; grid-row-start:{row_remap_css[self.position[1]]};" id="{self.id}">
         </div>
         '''
-    
+
     def bind_events(self):
         # Ask jQuery to listen to clicks on the body
         # (the whole content of the window)
@@ -116,77 +117,82 @@ class Square:
     # note all event handlers must accept the event object
     # (even if the don't use it)
     def click(self, event):
-        print(self.position)
+        window.player_move_input(
+            window.clicked_piece.position + " " + self.position)
+        #window.clicked_piece.position = self.position
+        print(f'Click test {window.clicked_piece.position}')
+
         # j('body').on('mouseup', f'#{self.id}', (print('dadada'))
 
-square_a1= Square('A1', 'Black')
-square_b1= Square('B1', 'White')
-square_c1= Square('C1', 'Black')
-square_d1= Square('D1', 'White')
-square_e1= Square('E1', 'Black')
-square_f1= Square('F1', 'White')
-square_g1= Square('G1', 'Black')
-square_h1= Square('H1', 'White')
 
-square_a2= Square('A2', 'White')
-square_b2= Square('B2', 'Black')
-square_c2= Square('C2', 'White')
-square_d2= Square('D2', 'Black')
-square_e2= Square('E2', 'White')
-square_f2= Square('F2', 'Black')
-square_g2= Square('G2', 'White')
-square_h2= Square('H2', 'Black')
+square_a1 = Square('A1', 'Black')
+square_b1 = Square('B1', 'White')
+square_c1 = Square('C1', 'Black')
+square_d1 = Square('D1', 'White')
+square_e1 = Square('E1', 'Black')
+square_f1 = Square('F1', 'White')
+square_g1 = Square('G1', 'Black')
+square_h1 = Square('H1', 'White')
 
-square_a3= Square('A3', 'Black')
-square_b3= Square('B3', 'White')
-square_c3= Square('C3', 'Black')
-square_d3= Square('D3', 'White')
-square_e3= Square('E3', 'Black')
-square_f3= Square('F3', 'White')
-square_g3= Square('G3', 'Black')
-square_h3= Square('H3', 'White')
+square_a2 = Square('A2', 'White')
+square_b2 = Square('B2', 'Black')
+square_c2 = Square('C2', 'White')
+square_d2 = Square('D2', 'Black')
+square_e2 = Square('E2', 'White')
+square_f2 = Square('F2', 'Black')
+square_g2 = Square('G2', 'White')
+square_h2 = Square('H2', 'Black')
 
-square_a4= Square('A4', 'White')
-square_b4= Square('B4', 'Black')
-square_c4= Square('C4', 'White')
-square_d4= Square('D4', 'Black')
-square_e4= Square('E4', 'White')
-square_f4= Square('F4', 'Black')
-square_g4= Square('G4', 'White')
-square_h4= Square('H4', 'Black')
+square_a3 = Square('A3', 'Black')
+square_b3 = Square('B3', 'White')
+square_c3 = Square('C3', 'Black')
+square_d3 = Square('D3', 'White')
+square_e3 = Square('E3', 'Black')
+square_f3 = Square('F3', 'White')
+square_g3 = Square('G3', 'Black')
+square_h3 = Square('H3', 'White')
 
-square_a5= Square('A5', 'Black')
-square_b5= Square('B5', 'White')
-square_c5= Square('C5', 'Black')
-square_d5= Square('D5', 'White')
-square_e5= Square('E5', 'Black')
-square_f5= Square('F5', 'White')
-square_g5= Square('G5', 'Black')
-square_h5= Square('H5', 'White')
+square_a4 = Square('A4', 'White')
+square_b4 = Square('B4', 'Black')
+square_c4 = Square('C4', 'White')
+square_d4 = Square('D4', 'Black')
+square_e4 = Square('E4', 'White')
+square_f4 = Square('F4', 'Black')
+square_g4 = Square('G4', 'White')
+square_h4 = Square('H4', 'Black')
 
-square_a6= Square('A6', 'White')
-square_b6= Square('B6', 'Black')
-square_c6= Square('C6', 'White')
-square_d6= Square('D6', 'Black')
-square_e6= Square('E6', 'White')
-square_f6= Square('F6', 'Black')
-square_g6= Square('G6', 'White')
-square_h6= Square('H6', 'Black')
+square_a5 = Square('A5', 'Black')
+square_b5 = Square('B5', 'White')
+square_c5 = Square('C5', 'Black')
+square_d5 = Square('D5', 'White')
+square_e5 = Square('E5', 'Black')
+square_f5 = Square('F5', 'White')
+square_g5 = Square('G5', 'Black')
+square_h5 = Square('H5', 'White')
 
-square_a7= Square('A7', 'Black')
-square_b7= Square('B7', 'White')
-square_c7= Square('C7', 'Black')
-square_d7= Square('D7', 'White')
-square_e7= Square('E7', 'Black')
-square_f7= Square('F7', 'White')
-square_g7= Square('G7', 'Black')
-square_h7= Square('H7', 'White')
+square_a6 = Square('A6', 'White')
+square_b6 = Square('B6', 'Black')
+square_c6 = Square('C6', 'White')
+square_d6 = Square('D6', 'Black')
+square_e6 = Square('E6', 'White')
+square_f6 = Square('F6', 'Black')
+square_g6 = Square('G6', 'White')
+square_h6 = Square('H6', 'Black')
 
-square_a8= Square('A8', 'White')
-square_b8= Square('B8', 'Black')
-square_c8= Square('C8', 'White')
-square_d8= Square('D8', 'Black')
-square_e8= Square('E8', 'White')
-square_f8= Square('F8', 'Black')
-square_g8= Square('G8', 'White')
-square_h8= Square('H8', 'Black')
+square_a7 = Square('A7', 'Black')
+square_b7 = Square('B7', 'White')
+square_c7 = Square('C7', 'Black')
+square_d7 = Square('D7', 'White')
+square_e7 = Square('E7', 'Black')
+square_f7 = Square('F7', 'White')
+square_g7 = Square('G7', 'Black')
+square_h7 = Square('H7', 'White')
+
+square_a8 = Square('A8', 'White')
+square_b8 = Square('B8', 'Black')
+square_c8 = Square('C8', 'White')
+square_d8 = Square('D8', 'Black')
+square_e8 = Square('E8', 'White')
+square_f8 = Square('F8', 'Black')
+square_g8 = Square('G8', 'White')
+square_h8 = Square('H8', 'Black')

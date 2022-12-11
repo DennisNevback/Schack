@@ -91,13 +91,7 @@ class Piece:
     # note all event handlers must accept the event object
     # (even if the don't use it)
     def click(self, event):
-        self.test = int.self.position[1] + 1
-        print(self.test)
-        print(event.target.id)
-        print(event.target.grid)
-        self.counter_click_row = self.counter_click_row + 1
-        j(f'#{self.id}').css('grid-row-start', f'{self.counter_click_row}')
-        # j('body').on('mouseup', f'#{self.id}', (print('dadada'))
+        window.clicked_piece = self
 
     def __str__(self):
         return f"""
@@ -107,6 +101,7 @@ class Piece:
         """
 
     def move(self, start: str, end: str, board: list[list[int]]):
+        print('hit')
         self.add_valid_moves(board)
         col = col_to_pos(start)
         row = row_to_pos(end)
@@ -118,6 +113,7 @@ class Piece:
             self.position = col + row
             print(f'updated pos {self.position}')
             print(self.moves)
+            print(self.position)
         else:
             print('invalid move')
 
