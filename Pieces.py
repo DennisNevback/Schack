@@ -114,6 +114,7 @@ class Piece:
             print(f'updated pos {self.position}')
             print(self.moves)
             print(self.position)
+            print(f'board {board[start][end]}')
         else:
             print('invalid move')
 

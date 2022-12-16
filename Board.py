@@ -121,6 +121,7 @@ class Square:
             window.clicked_piece.position + " " + self.position)
         #window.clicked_piece.position = self.position
         print(f'Click test {window.clicked_piece.position}')
+        #window.clicked_piece.postition = self.position
 
         # j('body').on('mouseup', f'#{self.id}', (print('dadada'))
 
