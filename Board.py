@@ -2,7 +2,7 @@ from random import random
 from Pieces import *
 from browser import window
 j = window.jQuery
-
+# nya
 pawn = Pawn('A2', 'white')
 
 w_pawn_1 = Pawn('A2', 'white')
@@ -120,6 +120,7 @@ class Square:
         window.player_move_input(
             window.clicked_piece.position + " " + self.position)
         #window.clicked_piece.position = self.position
+        window.clicked_piece.position = self.position
         print(f'Click test {window.clicked_piece.position}')
         #window.clicked_piece.postition = self.position
 

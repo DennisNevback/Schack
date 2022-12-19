@@ -1,7 +1,6 @@
 from queue import Empty
 from random import random
 from browser import window
-# from Board import Board
 j = window.jQuery
 
 
