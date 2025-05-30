@@ -1,3 +1,6 @@
+#Ansvara för att skapa en board class samt Square class
+#Logiken för att jquery ska fungera ligger också här
+#bind_events och click är det som gör att spelar fungerar på HTML
 from random import random
 from Pieces import *
 from browser import window
@@ -107,15 +110,18 @@ class Square:
         </div>
         '''
 
+    
     def bind_events(self):
         # Ask jQuery to listen to clicks on the body
         # (the whole content of the window)
         # if a click is on something with my id (self.id)
         # then run my click method
         j('body').on('click', f'#{self.id}', self.click)
+        print("Piece bind events")
 
     # note all event handlers must accept the event object
     # (even if the don't use it)
+    '''
     def click(self, event):
         window.player_move_input(
             window.clicked_piece.position + " " + self.position)
@@ -125,6 +131,27 @@ class Square:
         #window.clicked_piece.postition = self.position
 
         # j('body').on('mouseup', f'#{self.id}', (print('dadada'))
+    '''
+    def click(self, event):
+        # Kontrollera att en pjäs är vald
+        if not hasattr(window, 'selected_piece') or window.selected_piece is None:
+            print("Välj en pjäs först!")
+            return
+
+        from_pos = window.selected_piece.position
+        to_pos = self.position
+        print(f"Flytta från {from_pos} till {to_pos}")
+
+        # Kalla backend-funktion som hanterar draget
+        if hasattr(window, 'player_move_input'):
+            window.player_move_input(f"{from_pos} {to_pos}")
+        else:
+            print("window.player_move_input saknas!")
+
+        # Nollställ vald pjäs efter drag
+        window.selected_piece = None
+
+
 
 
 square_a1 = Square('A1', 'Black')

@@ -80,17 +80,38 @@ class Piece:
         self.counter_click_col = col_remap_css[self.position[0]]
         self.test = f''
 
-    def bind_events(self):
+    '''def bind_events(self):
         # Ask jQuery to listen to clicks on the body
         # (the whole content of the window)
         # if a click is on something with my id (self.id)
         # then run my click method
         j('body').on('click', f'#{self.id}', self.click)
+        print("Piece bind events")
 
     # note all event handlers must accept the event object
     # (even if the don't use it)
     def click(self, event):
         window.clicked_piece = self
+        '''
+    def bind_events(self):
+        j("body").on("click", f"#{self.id}", lambda event: self.click(event))
+
+    def click(self, event):
+        if not hasattr(window, 'selected_piece') or window.selected_piece is None:
+            # Första klicket: välj pjäs
+            window.selected_piece = self
+            print(f"Pjäs vald: {self.position}")
+        else:
+            # Andra klicket: drag från selected_piece till den här positionen
+            from_pos = window.selected_piece.position
+            to_pos = self.position
+            player_move = f"{from_pos} {to_pos}"
+            print(f"Försöker göra drag: {player_move}")
+            window.player_move_input(player_move)
+            
+            # Nollställ för nästa drag
+            window.selected_piece = None
+
 
     def __str__(self):
         return f"""

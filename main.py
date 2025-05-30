@@ -5,7 +5,7 @@ from contextlib import nullcontext
 from operator import pos
 from optparse import Values
 import re
-from browser import window, aio
+from browser import window, aio, timer
 j = window.jQuery
 
 
@@ -168,7 +168,7 @@ def temp_board_map():
     print(temp_list)
     return temp_list
 
-
+'''
 def player_move_input(player_move):
     print(player_move)
     global playing
@@ -196,10 +196,78 @@ def player_move_input(player_move):
     else:
         print('Those are not your pieces')
         player_turn()
+'''
+def player_move_input(player_move):
+    global playing, turn
+
+    #Behövs för att ändringar i Brython sker asynkront.
+    def update_after_move():
+        render_board()
+        render_board_html()
+        if win():
+            playing = False
+            print("Spelet är slut!")
+            return
+        player_turn()
+
+    print(player_move)
+    player_move = player_move.upper()
+
+    # Rochad kort/lång
+    if re.match('[oO]-[Oo]$', player_move):
+        rochad()
+        print('rochad1 success')
+        timer.set_timeout(update_after_move, 10)
+        return
+    elif re.match('[oO]-[Oo]-[oO]', player_move):
+        rochad()
+        print('rochad success')
+        timer.set_timeout(update_after_move, 10)
+        return
+
+    # Enda tillåtna moveformatet annars: t.ex. "E2 E4"
+    if not re.match('[A-H][1-8]\s[A-H][1-8]', player_move):
+        print('Invalid input')
+        return
+
+    from_pos, to_pos = player_move.split()
+    fx, fy = col_remap[from_pos[0]], row_remap[from_pos[1]]
+    tx, ty = col_remap[to_pos[0]], row_remap[to_pos[1]]
+
+    piece = board[fx][fy]
+
+    if piece == 0:
+        print('That square is empty')
+        return
+
+    if piece.color != turn:
+        print('Those are not your pieces')
+        return
+
+    # Genomför draget/Skickar vidare till input_board
+    input_board(player_move)
+    print('input success')
+
+
+    # ✅ Uppdatera clicked_piece-positionen först nu (om det behövs visuellt)
+    #window.clicked_piece.position = to_pos
+    window.player_move_input = player_move_input
+
+    # Uppdatera bräde och tur efter liten delay
+    timer.set_timeout(update_after_move, 10)
+
+    # Avsluta spel om input är "END"
+    if player_move == 'END':
+        playing = False
+        print("Spelet avslutat.")
+        return
 
 
 window.player_move_input = player_move_input
 
+def render_board_html():
+    print('TRIED TO RENDER HTML BOARD')
+    j('body').html(str(board_wrapper))
 
 def render_board():
 
@@ -229,6 +297,7 @@ def input_board(move):
     start_square_row = row_remap[start_square[1]]  # 2 -> 6
     end_square_col = col_remap[end_square[0]]  # D -> 3
     end_square_row = row_remap[end_square[1]]  # 4 -> 4
+    #Calls on on the clicked pieces move function inside the class
     board[start_square_col][start_square_row].move(
         end_square_col, end_square_row, board)
 
@@ -264,9 +333,11 @@ def rochad() -> None:
 
 
 def player_turn() -> str:
-    global player
-    player = 'white' if player == 'black' else 'black'
-    return player
+    global turn
+    #player = 'white' if player == 'black' else 'black'
+    turn = 'white' if turn == 'black' else 'black'
+    print('turn:', turn)
+    return turn
 
 
 def win() -> None:
@@ -288,7 +359,7 @@ def win() -> None:
         playing = False
         print('Black has won!')
 
-
+'''
 def game_loop():
     global turn
     print('\n Welcome to Chess, capture the enemy king to win the game!\n')
@@ -304,7 +375,23 @@ def game_loop():
         print(turn + 's turn')
         player_move_input()
         render_board()
+        render_board_html()
         win()
+'''
+
+def handle_player_click(start_pos, end_pos):
+    move = f"{start_pos} {end_pos}"
+    player_move_input(move)
+
+def start_game():
+    global playing, turn
+    playing = True
+    turn = "white"
+    set_board()
+    render_board()
+    render_board_html()
+    print("Spelet är igång!")
+    #Spelet förlitar sig på att Click funkionen i Square klassen kör igång varje drag
 
 
-game_loop()
+start_game()
