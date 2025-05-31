@@ -90,7 +90,11 @@ class Piece:
     # note all event handlers must accept the event object
     # (even if the don't use it)
     def click(self, event):
-        window.clicked_piece = self
+        if window.clicked_piece:
+            window.player_move_input(window.clicked_piece.position + " " + self.position)
+            window.clicked_piece = None
+        else:
+            window.clicked_piece = self
 
     def __str__(self):
         return f"""

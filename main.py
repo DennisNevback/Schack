@@ -200,6 +200,8 @@ def player_move_input(player_move):
 
 
 window.player_move_input = player_move_input
+window.clicked_piece = None
+
 
 
 def render_board():

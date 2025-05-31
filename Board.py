@@ -122,6 +122,7 @@ class Square:
         window.player_move_input(
             window.clicked_piece.position + " " + self.position)
         print(f'Click test {window.clicked_piece.position}')
+        window.clicked_piece = None
 
 
 square_a1 = Square('A1', 'Black')
