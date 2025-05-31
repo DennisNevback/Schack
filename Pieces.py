@@ -110,12 +110,13 @@ class Piece:
             board[start][end] = self
             board[self.pos_x][self.pos_y] = 0
             self.position = col + row
-            print(f'updated pos {self.position}')
             print(self.moves)
-            print(self.position)
+            print('Piece moved to:', self.position)
             print(f'board {board[start][end]}')
+            return True
         else:
             print('invalid move')
+            return False
 
     def add_valid_moves(self, board: list[list[int]]):
         print('add moves piece')

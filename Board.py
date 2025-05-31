@@ -92,6 +92,8 @@ class Board:
             {str(b_queen)}{str(b_rook_1)}{str(b_rook_2)}\
             </div>
         '''
+    
+    
 
 
 class Square:
@@ -119,12 +121,7 @@ class Square:
     def click(self, event):
         window.player_move_input(
             window.clicked_piece.position + " " + self.position)
-        #window.clicked_piece.position = self.position
-        window.clicked_piece.position = self.position
         print(f'Click test {window.clicked_piece.position}')
-        #window.clicked_piece.postition = self.position
-
-        # j('body').on('mouseup', f'#{self.id}', (print('dadada'))
 
 
 square_a1 = Square('A1', 'Black')

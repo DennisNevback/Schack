@@ -10,7 +10,10 @@ j = window.jQuery
 
 
 # Create a new application
-j('body').html(str(Board(8, 8)))
+#Initiera Board och rendera i webläsaren
+board_wrapper = Board(8, 8)
+j('body').html(str(board_wrapper))
+board = board_wrapper.board
 # j('Piece').on('click', f'#{pawn.id}', self.click)
 j('square').click(print('diska'))
 
@@ -79,8 +82,10 @@ row_remap = {
 }
 # rows, cols = (8, 8)
 # board = [[0 for i in range(cols)] for j in range(rows)]
-board_wrapper = Board(8, 8)
-board = board_wrapper.board
+
+
+
+turn = 'white'  # Startar med vit spelare
 playing = True
 player_move = ''
 player = 'black'
@@ -172,9 +177,8 @@ def temp_board_map():
 def player_move_input(player_move):
     print(player_move)
     global playing
+    global turn
     player_move = player_move.upper()
-    #global player_move
-    #player_move = input('Enter your move: ').upper()
     if board[col_remap[player_move[0]]][row_remap[player_move[1]]] != 0 and turn == board[col_remap[player_move[0]]][row_remap[player_move[1]]].color:
         if re.match('[oO]-[Oo]$', player_move):
             rochad()
@@ -189,20 +193,16 @@ def player_move_input(player_move):
             playing = False
         else:
             print('Invalid input')
-            player_turn()
     elif board[col_remap[player_move[0]]][row_remap[player_move[1]]] == 0:
         print('That square is empty')
-        player_turn()
     else:
         print('Those are not your pieces')
-        player_turn()
 
 
 window.player_move_input = player_move_input
 
 
 def render_board():
-
     global board
     for row in range(len(board)):
         for col in range(len(board[row])):
@@ -221,16 +221,28 @@ def render_board():
                         print('■', end=' ')
         print()
 
+def update_board_html():
+    j('body').html(str(board_wrapper))
+
 
 def input_board(move):
     global board
+    global turn
     start_square, end_square = move.split(' ')  # E2 D4
     start_square_col = col_remap[start_square[0]]  # E -> 4
     start_square_row = row_remap[start_square[1]]  # 2 -> 6
     end_square_col = col_remap[end_square[0]]  # D -> 3
     end_square_row = row_remap[end_square[1]]  # 4 -> 4
-    board[start_square_col][start_square_row].move(
-        end_square_col, end_square_row, board)
+    if board[start_square_col][start_square_row].move(
+        end_square_col, end_square_row, board):
+        #Update piece position on the board
+        #board[end_square_col][end_square_row].position = end_square
+        #board[start_square_col][start_square_row].position = end_square
+        window.clicked_piece.position = end_square
+        #Testa uppdatera HTML brädet efter varje drag
+        window.setTimeout(update_board_html,100)
+        #Byt spelare
+        turn = player_turn()
 
 
 def rochad() -> None:
@@ -264,9 +276,10 @@ def rochad() -> None:
 
 
 def player_turn() -> str:
-    global player
-    player = 'white' if player == 'black' else 'black'
-    return player
+    global turn
+    turn = 'black' if turn == 'white' else 'white'
+    print(turn + "'s turn")
+    return turn
 
 
 def win() -> None:
@@ -290,21 +303,10 @@ def win() -> None:
 
 
 def game_loop():
-    global turn
     print('\n Welcome to Chess, capture the enemy king to win the game!\n')
     set_board()
-    # j('body').html(str(f"""
-    #    <div class='board'>
-    #        {''.join([str(item) for item in temp_pieces])}
-    #    </div>
-    # """))
     render_board()
-    while playing:
-        turn = player_turn()
-        print(turn + 's turn')
-        player_move_input()
-        render_board()
-        win()
+    print(turn + 's turn')
 
 
 game_loop()
