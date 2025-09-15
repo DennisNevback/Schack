@@ -109,7 +109,7 @@ class Piece:
         col = col_to_pos(start)
         row = row_to_pos(end)
         end_move = col + row
-        if end_move in self.valid_moves:
+        if end_move in self.valid_moves:  
             self.moves.append(f'{self.position} -> {col}{row}')
             board[start][end] = self
             board[self.pos_x][self.pos_y] = 0
@@ -133,7 +133,7 @@ class Piece:
 class Pawn(Piece):
     def __init__(self, position, color):
         super().__init__(position, color)
-        self.icon = ('♙', '♟')[color == 'white']
+        self.icon = ('♟', '♙')[color == 'white']
         self.type = 'pawn'
 
     def add_valid_moves(self, board: list[list[int]]) -> None:
@@ -184,7 +184,7 @@ class Bishop(Piece):
 
     def __init__(self, position, color):
         super().__init__(position, color)
-        self.icon = ('♗', '♝')[color == 'white']
+        self.icon = ('♝', '♗')[color == 'white']
         self.type = 'bishop'
 
     def add_valid_moves(self, board: list[list[int]]) -> None:
@@ -239,15 +239,13 @@ class Bishop(Piece):
                 else:
                     self.valid_moves.append(col_to_pos(
                         self.pos_x+value)+row_to_pos(self.pos_y+value))
-        print('bishop end')
-        print(self.valid_moves)
 
 
 class Rook(Piece):
 
     def __init__(self, position, color):
         super().__init__(position, color)
-        self.icon = ('♖', '♜')[color == 'white']
+        self.icon = ('♜', '♖')[color == 'white']
         self.type = 'rook'
 
     def add_valid_moves(self, board: list[list[int]]) -> None:
@@ -303,7 +301,7 @@ class Queen(Piece):
 
     def __init__(self, position, color):
         super().__init__(position, color)
-        self.icon = ('♕', '♛')[color == 'white']
+        self.icon = ('♛', '♕')[color == 'white']
         self.type = 'queen'
 
     def add_valid_moves(self, board: list[list[int]]) -> None:
@@ -405,7 +403,7 @@ class King(Piece):
 
     def __init__(self, position, color):
         super().__init__(position, color)
-        self.icon = ('♔', '♚')[color == 'white']
+        self.icon = ('♚', '♔')[color == 'white']
         self.type = 'king'
 
     def add_valid_moves(self, board: list[list[int]]) -> None:
@@ -449,13 +447,32 @@ class King(Piece):
             else:
                 self.valid_moves.append(col_to_pos(
                     self.pos_x)+row_to_pos(self.pos_y-1))
+        #Castles
+        if self.moves == [] and self.color == 'white':
+            if board[self.pos_x + 1][self.pos_y] == 0 and board[self.pos_x + 2][self.pos_y] == 0:
+                if board[self.pos_x + 3][self.pos_y].moves == []:
+                    self.valid_moves.append(col_to_pos(
+                        self.pos_x + 2)+row_to_pos(self.pos_y))
+            if board[self.pos_x - 1][self.pos_y] == 0 and board[self.pos_x - 2][self.pos_y] == 0 and board[self.pos_x - 3][self.pos_y] == 0:
+                if board[self.pos_x - 4][self.pos_y].moves == []:
+                    self.valid_moves.append(col_to_pos(
+                        self.pos_x - 2)+row_to_pos(self.pos_y))
+        if self.moves == [] and self.color == 'black':
+            if board[self.pos_x + 1][self.pos_y] == 0 and board[self.pos_x + 2][self.pos_y] == 0:
+                if board[self.pos_x + 3][self.pos_y].moves == []:
+                    self.valid_moves.append(col_to_pos(
+                        self.pos_x + 2)+row_to_pos(self.pos_y))
+            if board[self.pos_x - 1][self.pos_y] == 0 and board[self.pos_x - 2][self.pos_y] == 0 and board[self.pos_x - 3][self.pos_y] == 0:
+                if board[self.pos_x - 4][self.pos_y].moves == []:
+                    self.valid_moves.append(col_to_pos(
+                        self.pos_x - 2)+row_to_pos(self.pos_y))
 
 
 class Knight(Piece):
 
     def __init__(self, position, color):
         super().__init__(position, color)
-        self.icon = ('♘', '♞')[color == 'white']
+        self.icon = ('♞', '♘')[color == 'white']
         self.type = 'knight'
 
     def add_valid_moves(self, board: list[list[int]]) -> None:

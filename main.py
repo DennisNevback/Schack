@@ -238,12 +238,10 @@ def input_board(move):
     if board[start_square_col][start_square_row].move(
         end_square_col, end_square_row, board):
         #Update piece position on the board
-        #board[end_square_col][end_square_row].position = end_square
-        #board[start_square_col][start_square_row].position = end_square
         window.clicked_piece.position = end_square
-        #Testa uppdatera HTML brädet efter varje drag
+        #Update HTML board after move
         window.setTimeout(update_board_html,100)
-        #Byt spelare
+        #Other player turn
         turn = player_turn()
 
 

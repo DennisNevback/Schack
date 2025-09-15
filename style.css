@@ -62,6 +62,7 @@ body {
   font-size: 50px;
   text-align: center;
   z-index: 2;
+  font-family: 'Segoe UI Symbol', 'Noto Sans Symbols', 'Segoe UI Symbol', sans-serif;
 }
 
 .square {
